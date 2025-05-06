@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="News.Views.AboutView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    Title="AboutView">
+    <ScrollView Padding="20">
+        <VerticalStackLayout>
+            <Image
+                HeightRequest="200"
+                HorizontalOptions="Center"
+                Source="dotnet_bot.png"
+                WidthRequest="200" />
+            <Label
+                FontAttributes="Bold"
+                FontSize="20"
+                Text="About Me" />
+            <Label
+                Margin="0,20,0,0"
+                FontSize="16"
+                HorizontalOptions="Center"
+                Text="Hi! I’m Kwanele, the creator of this News app. I built it to deliver the latest headlines, local updates, and global stories all in one place. Thank you for using it!" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
