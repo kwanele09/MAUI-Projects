@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="DoToo.Views.MainView"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:DoToo.Converters"
+    xmlns:local="clr-namespace:DoToo.ViewModels"
+    xmlns:viewModels="clr-namespace:DoToo.ViewModels"
+    x:DataType="viewModels:MainViewModel"
+    Title="Do Too!">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:StatusColorConverter x:Key="statusColorConverter" />
+            <converters:FilterTextConverter x:Key="filterTextConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding AddItemCommand}" Text="Add" />
+    </ContentPage.ToolbarItems>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Button
+            BackgroundColor="{DynamicResource ActiveColor}"
+            Command="{Binding ToggleFilterCommand}"
+            Style="{DynamicResource FilterButton}"
+            Text="{Binding ShowAll, Converter={StaticResource filterTextConverter}, StringFormat='Filter: {0}'}"
+            TextColor="Black">
+            <Button.Triggers>
+                <DataTrigger
+                    Binding="{Binding ShowAll}"
+                    TargetType="Button"
+                    Value="True">
+                    <Setter Property="BackgroundColor" Value="{DynamicResource CompletedColor}" />
+                    <Setter Property="TextColor" Value="White" />
+                </DataTrigger>
+            </Button.Triggers>
+        </Button>
+        <ListView
+            x:Name="ItemsListView"
+            Grid.Row="1"
+            ItemsSource="{Binding Items}"
+            RowHeight="70"
+            SelectedItem="{Binding SelectedItem}">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="viewModels:TodoItemViewModel">
+                    <ViewCell>
+                        <ViewCell.ContextActions>
+                            <MenuItem Command="{Binding ToggleCompletedCommand}" Text="{Binding StatusText}" />
+                        </ViewCell.ContextActions>
+                        <Grid Padding="15,10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <BoxView Grid.RowSpan="2" BackgroundColor="{Binding Item.Completed, Converter={StaticResource statusColorConverter}}" />
+                            <Label
+                                Grid.Column="1"
+                                FontSize="Medium"
+                                Text="{Binding Item.Title}" />
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                FontSize="Micro"
+                                Text="{Binding Item.Due, StringFormat='{0:MMMM d, yyyy}'}" />
+                            <Label
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                FontSize="Micro"
+                                HorizontalTextAlignment="End"
+                                IsVisible="{Binding Item.Completed}"
+                                Text="Completed"
+                                TextColor="{StaticResource CompletedColor}" />
+                        </Grid>
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</ContentPage>
