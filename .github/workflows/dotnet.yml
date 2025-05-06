@@ -22,8 +22,10 @@ jobs:
         dotnet-version: 9.0.x
     - name: Install .NET MAUI
       run : dotnet workload install maui
-    - name: Restore dependencies
-      run: dotnet restore
+    - name: Restore DoToo
+      run: dotnet restore DoToo/DoToo.csproj
+    - name: Restore News
+      run: dotnet restore News/News.csproj
     - name: Build DoToo and News projects
       run: |
         dotnet build DoToo/DoToo.csproj -c Release -f net9.0-android --no-restore
